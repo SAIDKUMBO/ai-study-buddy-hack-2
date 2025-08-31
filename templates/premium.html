@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Subscription - AI Study Buddy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-brain"></i>
+                <span>AI Study Buddy</span>
+            </div>
+            <div class="nav-menu">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/#features" class="nav-link">Features</a>
+                <a href="/#subjects" class="nav-link">Subjects</a>
+                <a href="/premium" class="nav-link premium-btn active">Go Premium</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Premium Hero -->
+    <section class="premium-hero">
+        <div class="container">
+            <div class="premium-hero-content">
+                <h1>Unlock Your Full Learning Potential</h1>
+                <p>Upgrade to Premium and experience the ultimate AI-powered study companion</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Plans -->
+    <section class="pricing-section">
+        <div class="container">
+            <h2 class="section-title">Choose Your Plan</h2>
+            <div class="pricing-grid">
+                <!-- Free Plan -->
+                <div class="pricing-card free">
+                    <div class="pricing-header">
+                        <h3>Free</h3>
+                        <div class="price">
+                            <span class="amount">KES 0</span>
+                            <span class="period">/month</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> 5 flashcards per session</li>
+                        <li><i class="fas fa-check"></i> Basic AI question generation</li>
+                        <li><i class="fas fa-check"></i> Standard processing time</li>
+                        <li><i class="fas fa-check"></i> Basic subject support</li>
+                        <li class="disabled"><i class="fas fa-times"></i> Advanced analytics</li>
+                        <li class="disabled"><i class="fas fa-times"></i> PDF export</li>
+                    </ul>
+                    <button class="btn btn-outline" disabled>Current Plan</button>
+                </div>
+
+                <!-- Premium Plan -->
+                <div class="pricing-card premium featured">
+                    <div class="pricing-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3>Premium</h3>
+                        <div class="price">
+                            <span class="amount">KES 1,000</span>
+                            <span class="period">/month</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Unlimited flashcards</li>
+                        <li><i class="fas fa-check"></i> Advanced AI processing</li>
+                        <li><i class="fas fa-check"></i> Priority queue</li>
+                        <li><i class="fas fa-check"></i> All subjects supported</li>
+                        <li><i class="fas fa-check"></i> Detailed analytics</li>
+                        <li><i class="fas fa-check"></i> PDF export</li>
+                        <li><i class="fas fa-check"></i> Custom study schedules</li>
+                        <li><i class="fas fa-check"></i> Progress tracking</li>
+                    </ul>
+                    <button class="btn btn-premium" onclick="initiatePayment()">
+                        <i class="fas fa-crown"></i>
+                        Upgrade Now
+                    </button>
+                </div>
+
+                <!-- Annual Plan -->
+                <div class="pricing-card annual">
+                    <div class="pricing-badge">Best Value</div>
+                    <div class="pricing-header">
+                        <h3>Annual</h3>
+                        <div class="price">
+                            <span class="amount">KES 10,000</span>
+                            <span class="period">/year</span>
+                        </div>
+                        <div class="savings">Save KES 2,000</div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> All Premium features</li>
+                        <li><i class="fas fa-check"></i> 2 months free</li>
+                        <li><i class="fas fa-check"></i> Priority support</li>
+                        <li><i class="fas fa-check"></i> Early access to new features</li>
+                        <li><i class="fas fa-check"></i> Personalized study recommendations</li>
+                        <li><i class="fas fa-check"></i> Group study sessions</li>
+                    </ul>
+                    <button class="btn btn-premium" onclick="initiateAnnualPayment()">
+                        <i class="fas fa-calendar-alt"></i>
+                        Choose Annual
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Modal -->
+    <div id="payment-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Complete Your Payment</h3>
+                <span class="close" onclick="closePaymentModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="payment-summary">
+                    <h4>Order Summary</h4>
+                    <div class="order-item">
+                        <span>Premium Subscription</span>
+                        <span id="payment-amount">KES 1,000</span>
+                    </div>
+                    <div class="order-total">
+                        <span>Total</span>
+                        <span id="payment-total">KES 1,000</span>
+                    </div>
+                </div>
+                
+                <div class="payment-methods">
+                    <h4>Choose Payment Method</h4>
+                    <div class="payment-options">
+                        <label class="payment-option">
+                            <input type="radio" name="payment-method" value="mpesa" checked>
+                            <span class="payment-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </span>
+                            <span>M-PESA</span>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment-method" value="card">
+                            <span class="payment-icon">
+                                <i class="fas fa-credit-card"></i>
+                            </span>
+                            <span>Credit/Debit Card</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="payment-form">
+                    <div class="form-group">
+                        <label for="phone-number">Phone Number (for M-PESA)</label>
+                        <input type="tel" id="phone-number" class="form-control" placeholder="254700000000">
+                    </div>
+                    
+                    <button id="pay-button" class="btn btn-premium btn-large" onclick="processPayment()">
+                        <i class="fas fa-lock"></i>
+                        Pay Securely
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Comparison -->
+    <section class="features-comparison">
+        <div class="container">
+            <h2 class="section-title">Feature Comparison</h2>
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Free</th>
+                            <th>Premium</th>
+                            <th>Annual</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Flashcards per session</td>
+                            <td>5</td>
+                            <td>Unlimited</td>
+                            <td>Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td>AI processing speed</td>
+                            <td>Standard</td>
+                            <td>Priority</td>
+                            <td>Priority</td>
+                        </tr>
+                        <tr>
+                            <td>Subject support</td>
+                            <td>Basic</td>
+                            <td>All subjects</td>
+                            <td>All subjects</td>
+                        </tr>
+                        <tr>
+                            <td>Analytics</td>
+                            <td>Basic</td>
+                            <td>Advanced</td>
+                            <td>Advanced</td>
+                        </tr>
+                        <tr>
+                            <td>PDF export</td>
+                            <td><i class="fas fa-times"></i></td>
+                            <td><i class="fas fa-check"></i></td>
+                            <td><i class="fas fa-check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Study schedules</td>
+                            <td><i class="fas fa-times"></i></td>
+                            <td><i class="fas fa-check"></i></td>
+                            <td><i class="fas fa-check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Priority support</td>
+                            <td><i class="fas fa-times"></i></td>
+                            <td><i class="fas fa-times"></i></td>
+                            <td><i class="fas fa-check"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3>How does the payment work?</h3>
+                    <p>We use Intasend for secure payments. You can pay via M-PESA or credit/debit card. Your subscription will be activated immediately after successful payment.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Can I cancel my subscription?</h3>
+                    <p>Yes, you can cancel your subscription at any time. You'll continue to have access to premium features until the end of your billing period.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Is my data secure?</h3>
+                    <p>Absolutely! We use industry-standard encryption to protect your data. Your notes and flashcards are stored securely and are only accessible to you.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>What if I'm not satisfied?</h3>
+                    <p>We offer a 30-day money-back guarantee. If you're not completely satisfied with Premium, we'll refund your payment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AI Study Buddy</h3>
+                    <p>Empowering students with AI-powered learning tools for better academic success.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/#features">Features</a></li>
+                        <li><a href="/#subjects">Subjects</a></li>
+                        <li><a href="/premium">Premium</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> info@aistudybuddy.com</li>
+                        <li><i class="fas fa-phone"></i> +254 700 000 000</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 AI Study Buddy. All rights reserved. | Supporting SDG 4: Quality Education</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/premium.js') }}"></script>
+</body>
+</html>

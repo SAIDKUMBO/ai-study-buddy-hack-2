@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Study Buddy - Your Smart Learning Companion</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Security Verification Modal -->
+<div id="security-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Security Verification</h3>
+      </div>
+      <div class="modal-body">
+        <div class="verification-step active" data-step="1">
+          <p>Step 1: Enter your email</p>
+          <input type="email" id="user-email" class="form-control" placeholder="Enter your email">
+          <button class="btn btn-primary next-step">Next</button>
+        </div>
+  
+        <div class="verification-step" data-step="2">
+          <p>Step 2: Enter the OTP sent to your email</p>
+          <input type="text" id="otp" class="form-control" placeholder="Enter OTP">
+          <button class="btn btn-secondary prev-step">Previous</button>
+          <button class="btn btn-primary next-step">Next</button>
+        </div>
+  
+        <div class="verification-step" data-step="3">
+          <p>Step 3: Confirm</p>
+          <p>Click “Finish” to access AI Study Buddy.</p>
+          <button class="btn btn-secondary prev-step">Previous</button>
+          <button class="btn btn-primary finish-step">Finish</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-brain"></i>
+                <span>AI Study Buddy</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#subjects" class="nav-link">Subjects</a>
+                <a href="/premium" class="nav-link premium-btn">Go Premium</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="gradient-text">AI-Powered</span> Study Companion
+                </h1>
+                <p class="hero-subtitle">
+                    Transform your notes into interactive flashcards with the power of artificial intelligence. 
+                    Study smarter, not harder with our AI Study Buddy.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="scrollToSection('subjects')">
+                        <i class="fas fa-rocket"></i>
+                        Start Learning
+                    </button>
+                    <button class="btn btn-secondary" onclick="watchDemo()">
+                        <i class="fas fa-play"></i>
+                        Watch Demo
+                    </button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-card card-1">
+                    <i class="fas fa-atom"></i>
+                    <span>Chemistry</span>
+                </div>
+                <div class="floating-card card-2">
+                    <i class="fas fa-globe-africa"></i>
+                    <span>Geography</span>
+                </div>
+                <div class="floating-card card-3">
+                    <i class="fas fa-dna"></i>
+                    <span>Biology</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose AI Study Buddy?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI-Powered Questions</h3>
+                    <p>Our advanced AI analyzes your notes and generates precise, relevant questions for effective learning.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3>Interactive Flashcards</h3>
+                    <p>Flip through beautiful, animated flashcards that make learning engaging and memorable.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Smart Storage</h3>
+                    <p>All your flashcards are automatically saved and organized for future revision sessions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Study Anywhere</h3>
+                    <p>Access your flashcards on any device, anytime, anywhere for convenient learning.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subjects Section -->
+    <section id="subjects" class="subjects">
+        <div class="container">
+            <h2 class="section-title">Choose Your Subject</h2>
+            <p class="section-subtitle">Select from our comprehensive list of high school subjects</p>
+            
+            <div class="subject-form">
+                <div class="form-group">
+                    <label for="subject-select">Subject:</label>
+                    <select id="subject-select" class="form-control">
+                        <option value="">Select a subject...</option>
+                        <option value="Geography">Geography</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Biology">Biology</option>
+                        <option value="History">History</option>
+                        <option value="CRE">CRE</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes-input">Paste Your Notes:</label>
+                    <textarea id="notes-input" class="form-control" rows="8" 
+                              placeholder="Paste your study notes here... The AI will analyze them and generate relevant questions."></textarea>
+                </div>
+                
+                <button id="generate-btn" class="btn btn-primary btn-large">
+                    <i class="fas fa-magic"></i>
+                    Generate Flashcards
+                </button>
+            </div>
+
+            <!-- Loading Animation -->
+            <div id="loading" class="loading-container" style="display: none;">
+                <div class="loading-spinner"></div>
+                <p>AI is analyzing your notes and generating questions...</p>
+            </div>
+
+            <!-- Flashcards Container -->
+            <div id="flashcards-container" class="flashcards-container" style="display: none;">
+                <h3>Your Generated Flashcards</h3>
+                <div class="flashcards-grid" id="flashcards-grid"></div>
+                <div class="flashcard-controls">
+                    <button id="prev-card" class="btn btn-secondary">
+                        <i class="fas fa-chevron-left"></i>
+                        Previous
+                    </button>
+                    <span id="card-counter">1 / 5</span>
+                    <button id="next-card" class="btn btn-secondary">
+                        Next
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+            
+
+    <!-- Premium Section -->
+    <section class="premium-section">
+        <div class="container">
+            <div class="premium-card">
+                <div class="premium-content">
+                    <h2>Unlock Premium Features</h2>
+                    <p>Get unlimited flashcards, advanced analytics, and priority AI processing</p>
+                    <ul class="premium-features">
+                        <li><i class="fas fa-check"></i> Unlimited flashcard generation</li>
+                        <li><i class="fas fa-check"></i> Advanced study analytics</li>
+                        <li><i class="fas fa-check"></i> Priority AI processing</li>
+                        <li><i class="fas fa-check"></i> Export flashcards to PDF</li>
+                        <li><i class="fas fa-check"></i> Custom study schedules</li>
+                    </ul>
+                    <div class="premium-price">
+                        <span class="price">KES 1,000</span>
+                        <span class="period">/month</span>
+                    </div>
+                    <a href="/premium" class="btn btn-premium">
+                        <i class="fas fa-crown"></i>
+                        Upgrade to Premium
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AI Study Buddy</h3>
+                    <p>Empowering students with AI-powered learning tools for better academic success.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#subjects">Subjects</a></li>
+                        <li><a href="/premium">Premium</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Subjects</h4>
+                    <ul>
+                        <li><a href="#subjects">Geography</a></li>
+                        <li><a href="#subjects">Chemistry</a></li>
+                        <li><a href="#subjects">Physics</a></li>
+                        <li><a href="#subjects">Biology</a></li>
+                        <li><a href="#subjects">History</a></li>
+                        <li><a href="#subjects">CRE</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> info@aistudybuddy.com</li>
+                        <li><i class="fas fa-phone"></i> +254 700 000 000</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 AI Study Buddy. All rights reserved. | Supporting SDG 4: Quality Education</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script     <!-- Footer -->
+    <footer class="footer">
+        ...
+    </footer>
+
+    <!-- ✅ All scripts go here, right before </body> -->
+    <script>
+        console.log("Script is loading...");
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+        }
+
+        // ✅ Add watchDemo here
+        function watchDemo() {
+            console.log("watchDemo function called!");
+            alert("This would open a demo video or walkthrough."); 
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM loaded!");
+
+            const steps = document.querySelectorAll('.verification-step');
+            let currentStep = 0;
+
+            function showStep(index) {
+                steps.forEach((step, i) => {
+                    step.classList.toggle('active', i === index);
+                });
+            }
+
+            // Next button functionality
+            document.querySelectorAll('.next-step').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (currentStep === 0) {
+                        const email = document.getElementById('user-email').value;
+                        if (!email || !email.includes('@')) {
+                            alert('Please enter a valid email address.');
+                            return;
+                        }
+                    }
+
+                    if (currentStep < steps.length - 1) {
+                        currentStep++;
+                        showStep(currentStep);
+                    }
+                });
+            });
+
+            // Previous button functionality
+            document.querySelectorAll('.prev-step').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (currentStep > 0) {
+                        currentStep--;
+                        showStep(currentStep);
+                    }
+                });
+            });
+
+            // Finish button functionality
+            document.querySelector('.finish-step').addEventListener('click', function() {
+                document.getElementById('security-modal').style.display = 'none';
+            });
+
+            // Initialize first step
+            showStep(0);
+        });
+    </script>
+</body>
+</html>
+
+        
+   
